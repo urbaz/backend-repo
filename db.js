@@ -1,8 +1,19 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('goatfarm', 'postgres', "It'sgud1", {
-  host: 'localhost',
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
 });
 
-module.exports = sequelize;
+sequelize.authenticate()
+  .then(() => console.log('Database connected'))
+  .catch(err => {
+    console.error('Database connection failed:', err);
+    process.exit(1); // Exit app if DB connection fails
+  });
