@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const config = require('./config.js');  // if you renamed config.json to config.js
+const config = require('./config.js');  // your config file
 const env = process.env.NODE_ENV || 'development';
 
 let sequelize;
@@ -26,3 +26,5 @@ if (env === 'production') {
     }
   );
 }
+
+module.exports = sequelize;  // <-- Export the instance here!
